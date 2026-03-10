@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>kossa-store</title>
+<style>body{font-family:Arial;text-align:center;padding:50px;background:#c17b4c;color:white;}</style>
+</head>
+<body>
+<h1>🇲🇦 kossa-store</h1>
+<div id="products"></div>
+<script>
+fetch('https://firestore.googleapis.com/v1/projects/choufstore-1a66b/databases/(default)/documents/stores/kossa-store/products')
+    .then(r => r.json()).then(data => {
+        let html = '';
+        data.documents?.forEach(doc => {
+            const f = doc.fields;
+            html += `<div>${f.icon?.stringValue || '📦'} ${f.name.stringValue} - ${f.price.integerValue} MAD</div>`;
+        });
+        document.getElementById('products').innerHTML = html || '<p>No products</p>';
+    });
+</script>
+</body>
+</html>
